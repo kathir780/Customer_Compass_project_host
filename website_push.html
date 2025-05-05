@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Compass Project</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #93c5fd;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --lighter: #ffffff;
+            --gray: #94a3b8;
+            --light-gray: #e2e8f0;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --text-light: #1e293b;
+            --text-dark: #f1f5f9;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            transition: var(--transition);
+            margin: 0;
+            padding: 0;
+        }
+
+        body.dark-mode {
+            background-color: var(--darker);
+            color: var(--text-dark);
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: white;
+            box-shadow: var(--shadow-lg);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            padding: 0 1rem;
+            transition: var(--transition);
+            margin: 0.5rem 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header h1:hover {
+            transform: scale(1.03);
+        }
+
+        body.dark-mode header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            background-color: var(--lighter);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid var(--light-gray);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        body.dark-mode section {
+            background-color: var(--dark);
+            color: var(--text-dark);
+            border: 1px solid var(--gray);
+        }
+
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 0;
+            background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
+            transition: height 0.6s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+
+        section:hover::before {
+            height: 100%;
+        }
+
+        section h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: inline-block;
+            padding-bottom: 5px;
+            position: relative;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.4s ease;
+        }
+
+        section:hover h2::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        section h3 {
+            font-size: 1.4rem;
+            color: var(--dark);
+            margin: 1.8rem 0 1.2rem;
+            font-weight: 500;
+        }
+
+        body.dark-mode section h3 {
+            color: var(--text-dark);
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--dark);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        body.dark-mode p {
+            color: var(--text-dark);
+        }
+
+        ul, ol {
+            margin-left: 1.8rem;
+            margin-bottom: 1.8rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            padding-left: 5px;
+            position: relative;
+            transition: var(--transition);
+            font-size: 1.05rem;
+        }
+
+        li::before {
+            content: '•';
+            color: var(--primary);
+            position: absolute;
+            left: -1rem;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        li:hover {
+            transform: translateX(8px);
+            color: var(--primary-dark);
+        }
+
+        li:hover::before {
+            transform: scale(1.5);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+            padding-bottom: 2px;
+            font-weight: 500;
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            transition: width 0.3s ease;
+        }
+
+        a:hover::after {
+            width: 100%;
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        body.dark-mode a {
+            color: var(--primary-light);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--light-gray);
+            transition: var(--transition);
+            display: block;
+        }
+
+        img:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 0;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            margin: 0;
+            color: white;
+        }
+
+        footer:hover p {
+            letter-spacing: 1px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 0.8rem 1.6rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover {
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        body.dark-mode .btn {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1e3a8a 100%);
+            color: var(--lighter);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Utilities */
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-3 {
+            margin-bottom: 3rem;
+        }
+
+        .mt-3 {
+            margin-top: 3rem;
+        }
+
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+
+            section {
+                padding: 1.8rem;
+            }
+
+            section h2 {
+                font-size: 1.6rem;
+            }
+
+            .intro {
+                padding: 2rem 1.5rem;
+            }
+
+            .intro h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.6rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+
+            section h2 {
+                font-size: 1.4rem;
+            }
+
+            .intro h2 {
+                font-size: 1.6rem;
+            }
+
+            .intro p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Elevation improvements */
+        .intro {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%);
+            border-left: 5px solid var(--primary);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(29, 78, 216, 0.05) 100%);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--primary);
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .contact-links a {
+            background: rgba(37, 99, 235, 0.1);
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .contact-links a:hover {
+            background: rgba(37, 99, 235, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .contact-links a::after {
+            display: none;
+        }
+
+        body.dark-mode .contact-links a {
+            background: rgba(147, 197, 253, 0.1);
+        }
+
+        body.dark-mode .contact-links a:hover {
+            background: rgba(147, 197, 253, 0.2);
+        }
+
+        /* Floating button */
+        .floating-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            z-index: 99;
+            transition: var(--transition);
+        }
+
+        .floating-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: var(--primary-dark);
+        }
+
+        body.dark-mode .floating-btn {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Customer Compass Project</h1>
+        <button id="mode-toggle" class="btn">🌙 Dark Mode</button>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h2>Welcome!</h2>
+            <p>This website showcases my end-to-end data analysis project: <strong>Customer Compass</strong>.</p>
+            <p>Through this project, I demonstrate my complete analytical workflow—from conceptual design to actionable insights. Explore how I crafted a custom relational database, generated realistic data, applied advanced SQL techniques, and uncovered valuable customer behavior patterns.</p>
+        </section>
+
+        <section>
+            <h2 class="text-center">About the Project</h2>
+            <p><strong>Customer Compass</strong> is a comprehensive data analytics project built to analyze customer segmentation and behavior across time. The goal was to replicate real-world business challenges and solve them using industry-level tools and techniques.</p>
+            
+            <div class="highlight-box">
+                <p><strong>Business Objective:</strong> The core objective is to understand how customer segments evolve and what triggers those changes—helping businesses increase retention, reduce churn, and boost sales by targeting the right segments at the right time.</p>
+            </div>
+            
+            <p>Unlike basic case studies, this project was built entirely from scratch. I designed the ER model, created a 3NF-compliant database schema, generated mock data using Python's Faker library, and visualized the results. Every component—from schema design to insight generation—was engineered with practical use cases in mind.</p>
+        </section>
+
+        <section>
+            <h2 class="text-center">Database Design</h2>
+            <p>The foundation of the project is a well-normalized relational database. The schema is designed in 3rd Normal Form (3NF) to reduce redundancy and ensure data integrity. Here's a breakdown of key entities:</p>
+            <ul>
+                <li><strong>Customers</strong>: Contains personal and demographic details of users.</li>
+                <li><strong>Segments</strong>: Defines different customer segments based on behavior and preferences (e.g., Loyal, At Risk, High Value).</li>
+                <li><strong>Customer_Segments_History</strong>: Tracks changes in customer segments over time to understand behavioral transitions.</li>
+                <li><strong>Products</strong>: Includes product metadata like category, price, and popularity.</li>
+                <li><strong>Orders & Order_Items</strong>: Captures purchase transactions and itemized order data.</li>
+                <li><strong>Order_Address</strong>: Contains shipping location details for geospatial analysis.</li>
+                <li><strong>Payments</strong>: Stores payment mode, success status, and related info.</li>
+            </ul>
+            <p>Each relationship was carefully planned and normalized to handle large datasets efficiently. Temporal logic was applied to monitor behavior trends over time.</p>
+            <h3>Entity Relationship Diagram (ERD)</h3>
+            <img src="assets/customer compass erd.png" alt="ERD Diagram" style="max-width:100%;">
+        </section>
+
+        <section>
+            <h2 class="text-center">Documentation</h2>
+            <p>Explore full documentation including schema designs and project structure:</p>
+            <div class="contact-links">
+                <a href="/css/assets/customer compass erd.png" target="_blank">ERD Diagram (PDF)</a>
+                <a href="/css/assets/schema.sql" target="_blank">Database Schema SQL</a>
+                <a href="README.md" target="_blank">Project Report</a>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-center">Contact</h2>
+            <p>If you're interested in learning more, collaborating, or hiring me, feel free to connect!</p>
+            <div class="contact-links">
+                <a href="mailto:kathirveln0708@gmail.com?subject=Regarding Customer Compass Project">Email Me</a>
+                <a href="Kathir_data_analyst.pdf" target="_blank">Download Resume</a>
+                <a href="https://github.com/kathir780/Customer-Compass-Project" target="_blank">GitHub Profile</a>
+                <a href="https://www.linkedin.com/in/kathirveln2025/" target="_blank">LinkedIn Profile</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Kathir. All rights reserved.</p>
+    </footer>
+
+    <div class="floating-btn" id="scroll-to-top" title="Scroll to top">↑</div>
+
+    <script>
+        const modeToggleButton = document.getElementById("mode-toggle");
+        const scrollToTopBtn = document.getElementById("scroll-to-top");
+
+        // Dark mode toggle
+        if (localStorage.getItem("theme") === "dark") {
+            document.body.classList.add("dark-mode");
+            modeToggleButton.textContent = "☀️ Light Mode";
+        }
+
+        modeToggleButton.addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+
+            if (document.body.classList.contains("dark-mode")) {
+                modeToggleButton.textContent = "☀️ Light Mode";
+                localStorage.setItem("theme", "dark");
+            } else {
+                modeToggleButton.textContent = "🌙 Dark Mode";
+                localStorage.setItem("theme", "light");
+            }
+        });
+
+        // Scroll to top button
+        window.addEventListener("scroll", () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.style.display = "flex";
+            } else {
+                scrollToTopBtn.style.display = "none";
+            }
+        });
+
+        scrollToTopBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+        // Smooth scrolling for all links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener("click", function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute("href")).scrollIntoView({
+                    behavior: "smooth"
+                });
+            });
+        });
+    </script>
+</body>
+</html>
